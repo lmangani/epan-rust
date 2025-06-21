@@ -16,6 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Dependencies
+      run: apt-get install -y wireshark-dev libwireshark-dev libglib2.0-dev pkg-config
     - name: Build
       run: cargo build --verbose
     - name: Run tests
