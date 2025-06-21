@@ -1,0 +1,36 @@
+[package]
+name = "rust-pcap-dissector"
+version = "0.1.0"
+edition = "2021"
+description = "A Rust library for dissecting pcap files using Wireshark's epan library"
+license = "MIT"
+repository = "https://github.com/yourusername/rust-pcap-dissector"
+
+[dependencies]
+epan-sys = "0.1.0"
+libc = "0.2"
+pcap-file = "2.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+clap = "4.0"
+env_logger = "0.10"
+
+[dev-dependencies]
+tempfile = "3.0"
+
+[build-dependencies]
+pkg-config = "0.3"
+
+# Uncomment to use bindgen instead of pre-generated bindings
+# [features]
+# default = ["bindgen"]
+# bindgen = ["epan-sys/bindgen"]
+
+[[bin]]
+name = "pcap-dissector"
+path = "src/main.rs"
+
+[lib]
+name = "pcap_dissector"
+path = "src/lib.rs"
