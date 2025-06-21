@@ -340,12 +340,19 @@ impl PcapDissector {
             match (src_port, dst_port) {
                 (80, _) | (_, 80) => {
                     self.parse_http(dissection, payload, dst_port == 80);
-                    // Debug: Add payload size info
+                    // Debug: Add payload size info and previews
                     dissection.fields.insert("http.payload_length".to_string(), serde_json::Value::Number(payload.len().into()));
                     if payload.len() > 0 {
-                        // Try to extract first few bytes as hex for debugging
-                        let preview = payload.iter().take(50).map(|b| format!("{:02x}", b)).collect::<Vec<_>>().join(" ");
-                        dissection.fields.insert("http.payload_preview".to_string(), serde_json::Value::String(preview));
+                        // Show hex preview for debugging
+                        let hex_preview = payload.iter().take(50).map(|b| format!("{:02x}", b)).collect::<Vec<_>>().join(" ");
+                        dissection.fields.insert("http.payload_hex".to_string(), serde_json::Value::String(hex_preview));
+                        
+                        // Also show readable text preview
+                        let text_preview = payload.iter().take(100)
+                            .map(|&b| if b >= 32 && b <= 126 { b as char } else if b == 10 { '\\' } else if b == 13 { '\\' } else { '.' })
+                            .collect::<String>()
+                            .replace("\\", "\\n");
+                        dissection.fields.insert("http.payload_text".to_string(), serde_json::Value::String(text_preview));
                     }
                 }
                 (443, _) | (_, 443) => {
