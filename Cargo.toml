@@ -7,7 +7,7 @@ license = "MIT"
 repository = "https://github.com/yourusername/rust-pcap-dissector"
 
 [dependencies]
-epan-sys = "0.1.0", features = ["bindgen"] }
+epan-sys = { version = "0.1.0", features = ["bindgen"] }
 libc = "0.2"
 pcap-file = "2.0"
 serde = { version = "1.0", features = ["derive"] }
