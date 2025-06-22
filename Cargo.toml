@@ -4,10 +4,10 @@ version = "0.1.0"
 edition = "2021"
 description = "A Rust library for dissecting pcap files using Wireshark's epan library"
 license = "MIT"
-repository = "https://github.com/yourusername/rust-pcap-dissector"
+repository = "https://github.com/lmangani/epan-rust"
 
 [dependencies]
-epan-sys = { version = "0.1.0", features = ["bindgen"] }
+epan-sys = { git = "https://github.com/lmangani/epan-sys", features = ["bindgen"] }
 libc = "0.2"
 pcap-file = "2.0"
 serde = { version = "1.0", features = ["derive"] }
