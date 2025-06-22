@@ -34,7 +34,7 @@ jobs:
       - name: Prepare binary
         run: |
           mkdir -p release
-          cp target/${{ matrix.target }}/release/rust-pcap-dissector release/rust-pcap-dissector-${{ matrix.target }}
+          cp target/${{ matrix.target }}/release/pcap-dissector release/pcap-dissector-${{ matrix.target }}
 
       - name: Upload release asset
         uses: softprops/action-gh-release@v2
