@@ -1,0 +1,44 @@
+name: Release Build
+
+on:
+  release:
+    types: [published]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build-release:
+    name: Build and Attach Release Artifacts
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        target:
+          - x86_64-unknown-linux-gnu
+          - x86_64-pc-windows-gnu
+          - x86_64-apple-darwin
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: sudo apt-get update && sudo apt-get install -y wireshark-dev libwireshark-dev libglib2.0-dev pkg-config
+
+      - name: Install Rust targets
+        run: rustup target add ${{ matrix.target }}
+
+      - name: Build release binary
+        run: cargo build --release --target=${{ matrix.target }}
+
+      - name: Prepare binary
+        run: |
+          mkdir -p release
+          cp target/${{ matrix.target }}/release/rust-pcap-dissector release/rust-pcap-dissector-${{ matrix.target }}
+
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
