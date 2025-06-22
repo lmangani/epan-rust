@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Dependencies
-      run: sudo apt-get install -y wireshark-dev libwireshark-dev libglib2.0-dev pkg-config
+      run: sudo apt-get update && sudo apt-get install -y wireshark-dev libwireshark-dev pkg-config clang glib-2.0
     - name: Build
       run: cargo build --verbose
     - name: Run tests
