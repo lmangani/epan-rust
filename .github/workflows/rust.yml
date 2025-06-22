@@ -17,7 +17,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Dependencies
-      run: sudo apt-get update && sudo apt-get install -y wireshark-dev libwireshark-dev pkg-config clang glib-2.0
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y wireshark-dev libwireshark-dev glib-2.0 libglib2.0-dev libpcap-dev libz-dev liblz4-dev libsnappy-dev libcap-dev libssl-dev pkg-config clang
+    - name: Enable Rust backtrace
+      run: export RUST_BACKTRACE=full
     - name: Build
       run: cargo build --verbose
     - name: Run tests
